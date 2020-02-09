@@ -1,22 +1,46 @@
 extends Node2D
 
-var Bullet = load("res://Scenes/Bullet.tscn")
 export (float) var shootDelay = 0.5
+export (Vector2) var movementDirection = Vector2(1,0)
+export var rotateShoot = false
+export var rotationShootSpeed = 5
 
-var x = 1
-var y = 1
+var bulletType = load("res://Scenes/Bullet.tscn")
 
+var life = 3
 func _ready():
 	$Shootingspeed.wait_time = shootDelay
+	$Enemy/Shooter.position = $Enemy.position
 	
-
 func _on_Shootingspeed_timeout():
-	var bullet = Bullet.instance()
-	var bullet2 = Bullet.instance()
+	var bullet = bulletType.instance()
+	var bullet2 = bulletType.instance()
 	
-	bullet.position = $Enemy.position
-	bullet2.position = $Enemy.position
-	bullet2.position -= transform.x * 30
+	var shooterPositon = $Enemy/Shooter.position
+	var yOffset = transform.y * 35
 	
+	bullet.position = shooterPositon
+	bullet.position += transform.x * 7
+	bullet.position += yOffset
+	bullet2.position = shooterPositon
+	bullet2.position -= transform.x * 20
+	bullet2.position += yOffset
+
 	add_child(bullet)
 	add_child(bullet2)
+
+func _process(delta):
+	self.position += movementDirection
+	if rotateShoot :
+		$Enemy/Shooter.rotation_degrees += rotationShootSpeed
+		print($Enemy/Shooter.rotation_degrees)
+		if $Enemy/Shooter.rotation_degrees == 180:
+			$Enemy/Shooter.rotation_degrees = 0
+
+func hit():
+	life -= 1
+	$Enemy.self_modulate = Color(100,100,100)
+	$Enemy.self_modulate = Color(1,1,1)
+
+func die():
+	self.visible = false

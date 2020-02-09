@@ -10,7 +10,7 @@ radius = 11.446
 position = Vector2( 616.948, 121.722 )
 script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Bullet" type="Sprite" parent="."]
 position = Vector2( 5.8105, -10.9942 )
 scale = Vector2( 0.503615, 0.503615 )
 texture = ExtResource( 1 )
@@ -18,6 +18,6 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bullet"]
 position = Vector2( 0, 1.07319 )
 shape = SubResource( 1 )

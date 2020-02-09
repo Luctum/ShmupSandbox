@@ -20,6 +20,7 @@ func playerShooting():
 
 func _process(delta):
 	playerShooting()
+	focusPlayer()
 	var velocity = Vector2()  # The player's movement vector.
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
@@ -43,3 +44,12 @@ func _process(delta):
 	position += velocity * delta
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
+
+func focusPlayer():
+	if Input.is_action_pressed("ui_focus"):
+		speed = 150
+	if Input.is_action_just_released("ui_focus"):
+		speed = 400
+
+
+	

@@ -1,0 +1,6 @@
+[gd_scene format=2]
+
+[node name="Shooter" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+visible = false

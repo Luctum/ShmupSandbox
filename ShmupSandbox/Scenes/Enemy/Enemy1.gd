@@ -1,46 +1,35 @@
-extends Node2D
+extends Node
+
+signal shoot()
 
 export (float) var shootDelay = 0.5
-export (Vector2) var movementDirection = Vector2(1,0)
+export (float) var shootSpeed = 1
+export (Vector2) var movementDirection = Vector2(0,0)
 export var rotateShoot = false
-export var rotationShootSpeed = 5
+export var rotationSpeed = 5
+export var life = 3
 
-var bulletType = load("res://Scenes/Bullet.tscn")
+var bulletType = load("res://Scenes/Bullet/Bullet.tscn")
 
-var life = 3
 func _ready():
 	$Shootingspeed.wait_time = shootDelay
-	$Enemy/Shooter.position = $Enemy.position
 	
 func _on_Shootingspeed_timeout():
 	var bullet = bulletType.instance()
-	var bullet2 = bulletType.instance()
-	
-	var shooterPositon = $Enemy/Shooter.position
-	var yOffset = transform.y * 35
-	
-	bullet.position = shooterPositon
-	bullet.position += transform.x * 7
-	bullet.position += yOffset
-	bullet2.position = shooterPositon
-	bullet2.position -= transform.x * 20
-	bullet2.position += yOffset
-
-	add_child(bullet)
-	add_child(bullet2)
+	var direction = Vector2(0,1).rotated($EnemySprite/Shooter.rotation)
+	var position = self.global_position
+	emit_signal("shoot", bullet, direction, position, shootSpeed)
 
 func _process(delta):
 	self.position += movementDirection
 	if rotateShoot :
-		$Enemy/Shooter.rotation_degrees += rotationShootSpeed
-		print($Enemy/Shooter.rotation_degrees)
-		if $Enemy/Shooter.rotation_degrees == 180:
-			$Enemy/Shooter.rotation_degrees = 0
-
+		$EnemySprite/Shooter.rotation_degrees += rotationSpeed
+		# Prevent the rotation to go to an infinite value
+		if $EnemySprite/Shooter.rotation_degrees == 360:
+			$EnemySprite/Shooter.rotation_degrees = 0
+	
 func hit():
 	life -= 1
-	$Enemy.self_modulate = Color(100,100,100)
-	$Enemy.self_modulate = Color(1,1,1)
 
 func die():
 	self.visible = false

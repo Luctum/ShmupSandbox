@@ -2,22 +2,34 @@
 
 [ext_resource path="res://Scenes/Enemy/Enemy1.gd" type="Script" id=1]
 [ext_resource path="res://Assets/ennemi1/ennemi1.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Shooter.tscn" type="PackedScene" id=3]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 23.0067
+height = 7.64029
+
+[node name="Enemy" type="RigidBody2D"]
+position = Vector2( -0.487671, 0 )
+gravity_scale = 0.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+shootDelay = 0.5
+rotationSpeed = 4
 
-[node name="Enemy" type="Sprite" parent="."]
-position = Vector2( 500.048, 103.142 )
+[node name="Shootingspeed" type="Timer" parent="."]
+autostart = true
+
+[node name="EnemySprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Shooter" parent="Enemy" instance=ExtResource( 3 )]
-position = Vector2( -0.0332642, 10.9021 )
+[node name="Shooter" type="Node2D" parent="EnemySprite"]
 
-[node name="Shootingspeed" type="Timer" parent="."]
-wait_time = 0.4
-autostart = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 4 )
+rotation = 1.5708
+shape = SubResource( 1 )
 [connection signal="timeout" from="Shootingspeed" to="." method="_on_Shootingspeed_timeout"]

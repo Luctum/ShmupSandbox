@@ -1,12 +1,98 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/Enemy/Enemy1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Main.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Player/player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/music/placeholderMusic/Spacedrift.wav" type="AudioStream" id=4]
+[ext_resource path="res://Scenes/Particules/mortExplosion.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/fond/asteroide1.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "Asteroide 1",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 160, 305 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.368627, 0.192157, 0.356863, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Camera2D"]
+follow_viewport_enable = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Camera2D/ParallaxBackground"]
+motion_offset = Vector2( 3, 14 )
+motion_mirroring = Vector2( 4, 0 )
+
+[node name="Asteroide1" type="AnimatedSprite" parent="Camera2D/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 168, 176 )
+frames = SubResource( 1 )
+animation = "Asteroide 1"
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 528, 248 )
+
 [node name="Enemy" parent="." instance=ExtResource( 1 )]
-position = Vector2( 409.672, 152.976 )
+position = Vector2( 430.544, 108.777 )
 shootDelay = 1.0
+
+[node name="Limite de terrain" type="Area2D" parent="."]
+position = Vector2( 160, 296 )
+z_index = 4
+
+[node name="Bordure noire" type="ColorRect" parent="Limite de terrain"]
+margin_left = -160.0
+margin_top = -296.0
+margin_right = 160.0
+margin_bottom = 304.0
+color = Color( 0.0666667, 0.0666667, 0.0666667, 0.92549 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Limite de terrain"]
+shape = SubResource( 2 )
+
+[node name="Limite de terrain2" type="Area2D" parent="."]
+position = Vector2( 864, 296 )
+z_index = 4
+
+[node name="Bordure noire" type="ColorRect" parent="Limite de terrain2"]
+margin_left = -160.0
+margin_top = -296.0
+margin_right = 160.0
+margin_bottom = 304.0
+color = Color( 0.0666667, 0.0666667, 0.0666667, 0.92549 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Limite de terrain2"]
+shape = SubResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -24.0
+
+[node name="mortExplosion" parent="." instance=ExtResource( 5 )]
+position = Vector2( 616, 72 )
+scale = Vector2( 1, 1 )
+[connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]
+[connection signal="enemyDie" from="Enemy" to="." method="_on_Enemy_enemyDie"]
 [connection signal="shoot" from="Enemy" to="." method="_on_Enemy_shoot"]

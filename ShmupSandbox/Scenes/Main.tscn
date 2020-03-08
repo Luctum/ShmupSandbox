@@ -8,5 +8,11 @@ script = ExtResource( 2 )
 
 [node name="Enemy" parent="." instance=ExtResource( 1 )]
 position = Vector2( 409.672, 152.976 )
+collision_layer = 0
+collision_mask = 0
+mass = 0.01
+contacts_reported = 1
+linear_damp = 0.0
+angular_damp = 0.0
 shootDelay = 1.0
 [connection signal="shoot" from="Enemy" to="." method="_on_Enemy_shoot"]

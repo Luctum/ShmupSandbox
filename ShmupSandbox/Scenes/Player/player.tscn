@@ -1,7 +1,7 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://assets/vaisseau1/vaisseau1.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/player.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Player/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/vaisseau1/vaisseau1_tirs0.png" type="Texture" id=3]
 [ext_resource path="res://assets/vaisseau1/vaisseau1_tirs1.png" type="Texture" id=4]
 [ext_resource path="res://assets/vaisseau1/vaisseau1_tirs2.png" type="Texture" id=5]
@@ -10,8 +10,7 @@
 [ext_resource path="res://assets/vaisseau1/vaisseau1_moteur0.png" type="Texture" id=8]
 [ext_resource path="res://assets/bouclier1/bouclier11.png" type="Texture" id=9]
 [ext_resource path="res://assets/explosion2/explosion25.png" type="Texture" id=10]
-
-
+[ext_resource path="res://Assets/bullet_ennemi/bulletLight.png" type="Texture" id=11]
 
 [sub_resource type="ShaderMaterial" id=1]
 
@@ -21,35 +20,37 @@
 next_pass = SubResource( 1 )
 shader = SubResource( 2 )
 
-[sub_resource type="Gradient" id=11]
-offsets = PoolRealArray( 0, 0.836158, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 0.00282669, 0.491342, 0.723633, 1, 1, 1, 1, 1 )
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.827586 )
+colors = PoolColorArray( 0, 0.0390625, 1, 1, 0.285156, 0.230576, 0.230576, 0.133333 )
 
-[sub_resource type="GradientTexture" id=12]
-gradient = SubResource( 11 )
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
 
-[sub_resource type="Curve" id=13]
+[sub_resource type="Curve" id=6]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.025 ), -3.09091, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=14]
-curve = SubResource( 13 )
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
 
-[sub_resource type="ParticlesMaterial" id=15]
-lifetime_randomness = 0.25
+[sub_resource type="ParticlesMaterial" id=8]
+lifetime_randomness = 0.13
+emission_shape = 1
+emission_sphere_radius = 20.0
 flag_disable_z = true
-gravity = Vector3( 0, 650, 0 )
-initial_velocity = 2.0
+direction = Vector3( 0, 1, 0 )
+spread = 2.0
+gravity = Vector3( 0, 648.518, 0 )
 initial_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 0.3
-scale = 0.2
-scale_curve = SubResource( 14 )
-color_ramp = SubResource( 12 )
-hue_variation = -0.11
-anim_speed_random = 0.11
+scale = 0.12
+scale_random = 0.21
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 5 )
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=9]
 animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
@@ -57,81 +58,120 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=8]
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0.114943, 0.442529, 0.614943, 0.850575, 0.994253 )
+colors = PoolColorArray( 0.457031, 0.745483, 1, 1, 0.547119, 0.823053, 0.972656, 1, 0.851563, 0.760918, 0.488983, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=11]
+gradient = SubResource( 10 )
+
+[sub_resource type="Curve" id=12]
+_data = [ Vector2( 0, 0.978409 ), 0.0, 0.0, 0, 0, Vector2( 0.979695, 0.414773 ), -1.29687, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=13]
+curve = SubResource( 12 )
+
+[sub_resource type="ParticlesMaterial" id=14]
+emission_shape = 1
+emission_sphere_radius = 25.0
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+spread = 35.0
+gravity = Vector3( 0, 20, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.53
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.29
+scale_random = 0.47
+scale_curve = SubResource( 13 )
+color_ramp = SubResource( 11 )
+hue_variation = 0.01
+hue_variation_random = 0.31
+
+[sub_resource type="Curve" id=15]
 max_value = 1.5
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.537975, 1.13864 ), 0.0, 0.0, 0, 0, Vector2( 1, 1.00227 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=9]
-curve = SubResource( 8 )
+[sub_resource type="CurveTexture" id=16]
+curve = SubResource( 15 )
 
-[sub_resource type="ParticlesMaterial" id=10]
+[sub_resource type="ParticlesMaterial" id=17]
 flag_disable_z = true
 spread = 0.0
 gravity = Vector3( 0, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale_curve = SubResource( 9 )
+scale_curve = SubResource( 16 )
 hue_variation = 0.02
 hue_variation_random = 0.1
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=18]
 animations = [ {
 "frames": [ ExtResource( 8 ), ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "moving",
-"speed": 5.0
+"speed": 10.0
 } ]
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=19]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "shooting",
-"speed": 10.0
+"speed": 25.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=20]
 extents = Vector2( 3.54986, 3.67569 )
 
 [node name="Player" type="Area2D"]
 material = SubResource( 3 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
 
-[node name="Particles2D" type="Particles2D" parent="."]
-position = Vector2( -7.16971, 21.1318 )
-amount = 32
-lifetime = 1.5
+[node name="TrailParticle" type="Particles2D" parent="."]
+position = Vector2( 0.358503, 21.4903 )
+scale = Vector2( 0.283, 1 )
+amount = 30
+lifetime = 0.69
+speed_scale = 2.13
+visibility_rect = Rect2( -99.548, -99.921, 199.995, 200 )
 local_coords = false
-process_material = SubResource( 15 )
+process_material = SubResource( 8 )
 texture = ExtResource( 10 )
 normal_map = ExtResource( 10 )
 
 [node name="vaisseau" type="AnimatedSprite" parent="."]
-frames = SubResource( 4 )
+frames = SubResource( 9 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( -0.540048, 36.2935 )
+scale = Vector2( 0.5, 0.5 )
+amount = 21
+lifetime = 0.63
+speed_scale = 2.79
+process_material = SubResource( 14 )
+texture = ExtResource( 11 )
 
 [node name="bouclier" type="Particles2D" parent="."]
 visible = false
 amount = 2
 lifetime = 3.0
 randomness = 0.32
-process_material = SubResource( 10 )
+process_material = SubResource( 17 )
 texture = ExtResource( 9 )
 
 [node name="moving" type="AnimatedSprite" parent="."]
-frames = SubResource( 5 )
+frames = SubResource( 18 )
 animation = "moving"
-frame = 1
 playing = true
 
 [node name="shooting" type="AnimatedSprite" parent="."]
-frames = SubResource( 6 )
+frames = SubResource( 19 )
 animation = "shooting"
-frame = 1
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -12.6587 )
-shape = SubResource( 7 )
+shape = SubResource( 20 )

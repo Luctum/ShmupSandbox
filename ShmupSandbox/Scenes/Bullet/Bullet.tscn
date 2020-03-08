@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 11.446
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="StaticBody2D"]
 position = Vector2( 616.948, 121.722 )
 script = ExtResource( 1 )
 
@@ -14,9 +14,6 @@ script = ExtResource( 1 )
 position = Vector2( 5.8105, -10.9942 )
 scale = Vector2( 0.503615, 0.503615 )
 texture = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 5.81049, -10.4537 )

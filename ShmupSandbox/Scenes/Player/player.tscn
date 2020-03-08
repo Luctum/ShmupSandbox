@@ -55,7 +55,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=10]
 animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
@@ -63,7 +63,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=14]
+[sub_resource type="SpriteFrames" id=11]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 1 ), ExtResource( 4 ) ],
 "loop": true,
@@ -71,7 +71,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=15]
+[sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 3.54986, 3.67569 )
 
 [node name="Player" type="Area2D"]
@@ -98,23 +98,21 @@ normal_map = ExtResource( 10 )
 frames = SubResource( 9 )
 
 [node name="moving" type="AnimatedSprite" parent="."]
-frames = SubResource( 13 )
+frames = SubResource( 10 )
 animation = "moving"
-frame = 2
+frame = 1
 playing = true
 
 [node name="shooting" type="AnimatedSprite" parent="."]
-frames = SubResource( 14 )
+frames = SubResource( 11 )
 animation = "shooting"
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -12.6587 )
-shape = SubResource( 15 )
+shape = SubResource( 12 )
 
 [node name="shootingSpeedPlayer" type="Timer" parent="."]
-autostart = true
 
 [node name="Focus" type="CPUParticles2D" parent="."]
 position = Vector2( -0.0546589, -12.6774 )

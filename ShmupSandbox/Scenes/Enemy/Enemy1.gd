@@ -9,8 +9,10 @@ export var rotateShoot = false
 export var rotationSpeed = 5
 export var life = 3
 
+var isTakingDamage = false
 var bulletType = load("res://Scenes/Bullet/Bullet.tscn")
 var mortExplosion = load("res://Scenes/Particules/mortExplosion.tscn")
+onready var ColorShader = preload("res://Assets/shaders/ColorShader.tres")
 
 func _ready():
 	$Shootingspeed.wait_time = shootDelay
@@ -28,25 +30,38 @@ func _process(_delta):
 		# Prevent the rotation to go to an infinite value
 		if $EnemySprite/Shooter.rotation_degrees == 360:
 			$EnemySprite/Shooter.rotation_degrees = 0
-	
+	if isTakingDamage:
+		$EnemySprite.material = ColorShader
+	else:
+		$EnemySprite.material = null
+
 func hit():
 	life -= 1
+	self.isTakingDamage = true
+	playHitSound()
+	$HitTimer.start()
 	if(life) == 0:
 		self.die()
 
 func die():
 	self.visible = false
-	emit_signal("enemyDie",self.position,mortExplosion.instance())
-
+	emit_signal("enemyDie", self.position,mortExplosion.instance())
 	queue_free()
 
 # Quand un tir du joueur touche l'ennemi
 func _on_Enemy_area_entered(area):
-	if area.isBulletFromPlayer == true:
+	print(area.get_class())
+	if area.get_class() == "Bullet" && area.isBulletFromPlayer == true:
 		self.hit()
-		print(area.name)
-		print(self.life)
 
+func _on_HitTimer_timeout():
+	self.isTakingDamage=false
 
-
-
+func playHitSound():
+	$HitSound.play()
+	
+func get_class():
+	return "Enemy1"
+	
+func is_type(type): 
+	return type == self.get_class or .is_type(type)

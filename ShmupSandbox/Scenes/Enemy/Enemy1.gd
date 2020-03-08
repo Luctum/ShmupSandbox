@@ -1,15 +1,16 @@
-extends Node
+extends Area2D
 
 signal shoot()
-
-export (float) var shootDelay = 0.5
-export (float) var shootSpeed = 1
+signal enemyDie()
+export (float) var shootDelay = 0.15
+export (float) var shootSpeed = 5
 export (Vector2) var movementDirection = Vector2(0,0)
 export var rotateShoot = false
 export var rotationSpeed = 5
 export var life = 3
 
 var bulletType = load("res://Scenes/Bullet/Bullet.tscn")
+var mortExplosion = load("res://Scenes/Particules/mortExplosion.tscn")
 
 func _ready():
 	$Shootingspeed.wait_time = shootDelay
@@ -20,7 +21,7 @@ func _on_Shootingspeed_timeout():
 	var position = self.global_position
 	emit_signal("shoot", bullet, direction, position, shootSpeed)
 
-func _process(delta):
+func _process(_delta):
 	self.position += movementDirection
 	if rotateShoot :
 		$EnemySprite/Shooter.rotation_degrees += rotationSpeed
@@ -30,6 +31,22 @@ func _process(delta):
 	
 func hit():
 	life -= 1
+	if(life) == 0:
+		self.die()
 
 func die():
 	self.visible = false
+	emit_signal("enemyDie",self.position,mortExplosion.instance())
+
+	queue_free()
+
+# Quand un tir du joueur touche l'ennemi
+func _on_Enemy_area_entered(area):
+	if area.isBulletFromPlayer == true:
+		self.hit()
+		print(area.name)
+		print(self.life)
+
+
+
+

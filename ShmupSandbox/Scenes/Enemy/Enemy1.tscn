@@ -7,7 +7,9 @@
 radius = 23.0067
 height = 7.64029
 
-[node name="Enemy" type="Area2D"]
+[node name="Enemy" type="Area2D" groups=[
+"Enemies",
+]]
 position = Vector2( -0.487671, 0 )
 script = ExtResource( 1 )
 rotationSpeed = 4
@@ -28,5 +30,4 @@ position = Vector2( 0, 4 )
 rotation = 1.5708
 shape = SubResource( 1 )
 [connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
-[connection signal="enemyDie" from="." to="." method="_on_Enemy_enemyDie"]
 [connection signal="timeout" from="Shootingspeed" to="." method="_on_Shootingspeed_timeout"]

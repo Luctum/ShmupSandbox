@@ -1,0 +1,15 @@
+[gd_scene format=2]
+
+[node name="SpeedEffect" type="Node2D"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 200
+lifetime = 3.0
+draw_order = 1
+emission_shape = 2
+emission_rect_extents = Vector2( 400, 1080 )
+spread = 120.0
+linear_accel = 1.0
+radial_accel = 1.0
+tangential_accel = 1.0
+damping = 2.0

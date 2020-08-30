@@ -2,8 +2,10 @@ extends Area2D
 
 signal shoot()
 signal enemyDie()
+export (PackedScene) var mob
 export (float) var shootDelay = 0.15
 export (float) var shootSpeed = 5
+export (float) var randomVariation = 0
 export (Vector2) var movementDirection = Vector2(0,0)
 export var rotateShoot = false
 export var rotationSpeed = 5

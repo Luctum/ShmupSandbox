@@ -23,6 +23,8 @@ signal shoot
 #Permet d'obtenir de la RNG selon le temps
 var rng = RandomNumberGenerator.new()
 
+var bombsPlayer = 3
+
 func _ready():
 	screen_size = get_viewport_rect().size
 	$shootingSpeedPlayer.wait_time = fireRatePlayer
@@ -88,6 +90,17 @@ func _process(delta):
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
 
+
+	#Fonction pour la bombe
+	if Input.is_action_just_pressed("ui_bomb"):
+		if (bombsPlayer!=0):
+			bombsPlayer -=1
+			get_tree().call_group("ennemyBullets", "queue_free")
+			get_tree().call_group("enemies","queue_free")
+			print("bombe activée. Il reste ", bombsPlayer, " Bombe(s)")
+		 
+
+
 func focusPlayer():
 	if Input.is_action_pressed("ui_focus"):
 		speed = 100
@@ -102,12 +115,16 @@ func focusPlayer():
 
 # Quand un objet touche le joueur
 func _on_Player_area_entered(area):
-	if(area)!= Area2D && area.isBulletFromPlayer == false:
-		self.visible=false
-		emit_signal("visibility_changed")
-		mortExplosion.instance()
-		print(area.name)
-		queue_free()
+		if(area)!= Area2D && area.isBulletFromPlayer == false:
+			var fpsWhenDead = Engine.get_frames_per_second()
+			print("FPS lors de la mort : "+ str(fpsWhenDead))
+			self.visible=false
+			emit_signal("visibility_changed")
+			mortExplosion.instance()
+			print(area.name)
+			queue_free()
+		else:
+			pass
 
 
 

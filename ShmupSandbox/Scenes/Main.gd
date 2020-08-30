@@ -1,7 +1,18 @@
 extends Node2D
 
+#ressources pour les musiques
+var rng = RandomNumberGenerator.new()
+var musiqueJouee = load("res://Assets/music/placeholderMusic/electric-dragon-legion-black.wav")
+
 func _ready():
+	#gestionnaire de musiques :
+	rng.randomize()
+	var musiqueAleatoire
+	musiqueAleatoire = rng.randf_range(1, 4)
+	if(musiqueAleatoire>=2):
+		$AudioStreamPlayer.set_stream(musiqueJouee)
 	$AudioStreamPlayer.playing=true
+	
 func _on_Enemy_shoot(bullet, direction, position, shootSpeed):
 	add_child(bullet)
 	bullet.start(position, direction, shootSpeed)

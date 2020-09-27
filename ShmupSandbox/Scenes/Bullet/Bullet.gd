@@ -1,5 +1,4 @@
 extends Area2D
-
 var velocity=Vector2(0,0)
 export (bool) var isBulletFromPlayer = false
 
@@ -8,6 +7,7 @@ func start(_position, _direction, shootSpeed):
 	self.position = _position
 	self.rotation = _direction.angle()
 	velocity = _direction * shootSpeed
+	
 
 
 func _process(_delta):
@@ -17,10 +17,10 @@ func _process(_delta):
 
 
 func _on_Visibility_screen_exited():
-	queue_free()
+	self.queue_free()
 
 func get_class():
 	return "Bullet"
-	
+
 func is_type(type): 
 	return type == self.get_class or .is_type(type)

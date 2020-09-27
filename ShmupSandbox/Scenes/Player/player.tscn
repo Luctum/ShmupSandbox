@@ -79,12 +79,6 @@ material = SubResource( 3 )
 z_index = 1
 script = ExtResource( 2 )
 
-[node name="PositionTir1" type="Position2D" parent="."]
-position = Vector2( -17, -17 )
-
-[node name="PositionTir2" type="Position2D" parent="."]
-position = Vector2( 17, -17 )
-
 [node name="Particles2D" type="Particles2D" parent="."]
 position = Vector2( -0.0546589, 21.1318 )
 amount = 32
@@ -106,6 +100,7 @@ playing = true
 [node name="shooting" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
 animation = "shooting"
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -129,5 +124,13 @@ initial_velocity_random = 1.0
 linear_accel = 0.3
 angle_random = 1.0
 scale_amount_curve = SubResource( 6 )
+
+[node name="GroupeTirs" type="Node2D" parent="."]
+
+[node name="PositionTir1" type="Position2D" parent="GroupeTirs"]
+position = Vector2( -17, -17 )
+
+[node name="PositionTir2" type="Position2D" parent="GroupeTirs"]
+position = Vector2( 17, -17 )
 [connection signal="area_entered" from="." to="." method="_on_Player_area_entered"]
 [connection signal="timeout" from="shootingSpeedPlayer" to="." method="_on_shootingSpeedPlayer_timeout"]

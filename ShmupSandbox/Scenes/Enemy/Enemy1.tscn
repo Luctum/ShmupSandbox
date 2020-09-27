@@ -9,8 +9,11 @@
 radius = 23.0067
 height = 7.64029
 
-[node name="Enemy" type="Area2D"]
+[node name="Enemy" type="Area2D" groups=[
+"Enemies",
+]]
 position = Vector2( -0.487671, 0 )
+collision_mask = 0
 script = ExtResource( 1 )
 rotationSpeed = 4
 
@@ -41,6 +44,5 @@ pitch_scale = 2.0
 [node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 [connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
-[connection signal="enemyDie" from="." to="." method="_on_Enemy_enemyDie"]
 [connection signal="timeout" from="Shootingspeed" to="." method="_on_Shootingspeed_timeout"]
 [connection signal="timeout" from="HitTimer" to="." method="_on_HitTimer_timeout"]

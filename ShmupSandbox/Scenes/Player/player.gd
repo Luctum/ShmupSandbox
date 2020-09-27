@@ -19,12 +19,15 @@ signal shoot
 #Permet d'obtenir de la RNG selon le temps
 var rng = RandomNumberGenerator.new()
 
+var bombsPlayer = 3
+
 func _ready():
 	screen_size = get_viewport_rect().size
 	$shootingSpeedPlayer.wait_time = self.fireRate
 
 	#Définit une Seed pour la RNG
 	rng.randomize()
+
 
 func playerShooting():
 #	#Lorsque le joueur appuis sur la touche de tir
@@ -79,6 +82,16 @@ func _process(delta):
 	position += velocity * delta
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
+
+
+	#Fonction pour la bombe
+	if Input.is_action_just_pressed("ui_bomb"):
+		if (bombsPlayer!=0):
+			bombsPlayer -=1
+			get_tree().call_group("ennemyBullets", "queue_free")
+			get_tree().call_group("enemies","queue_free")
+			print("bombe activée. Il reste ", bombsPlayer, " Bombe(s)")
+		 
 
 
 func focusPlayer():

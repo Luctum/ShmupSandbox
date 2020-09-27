@@ -32,6 +32,7 @@ func _ready():
 	#Définit une Seed pour la RNG
 	rng.randomize()
 
+
 func playerShooting():
 	#Lorsque le joueur appuis sur la touche de tir
 	if Input.is_action_pressed("ui_shoot") :

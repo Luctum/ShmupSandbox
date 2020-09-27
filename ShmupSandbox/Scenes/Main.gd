@@ -1,5 +1,5 @@
 extends Node2D
-
+export (PackedScene) var Enemy1
 #ressources pour les musiques
 var rng = RandomNumberGenerator.new()
 var musiqueJouee = load("res://Assets/music/placeholderMusic/electric-dragon-legion-black.wav")
@@ -24,7 +24,13 @@ func _on_Player_shoot(BulletPlayer, position, direction, shootSpeed):
 	BulletPlayer.start(position, direction, shootSpeed)
 	BulletPlayer.isBulletFromPlayer = true
 
-func _on_Enemy_enemyDie(position,mortExplosion):
-	add_child(mortExplosion)
-	mortExplosion.position=position
-	mortExplosion.emit()
+
+
+func _on_EnemySpawnTimer_timeout():
+	$EnemySpawnZone/PathFollow2D.offset = randi()
+	var enemy = Enemy1.instance()
+	add_child(enemy)
+	enemy.position=$EnemySpawnZone/PathFollow2D.position+$EnemySpawnZone.position
+	enemy.movementDirection = Vector2(0,1)
+	print(enemy.position)
+	

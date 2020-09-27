@@ -18,3 +18,9 @@ func _process(_delta):
 
 func _on_Visibility_screen_exited():
 	self.queue_free()
+
+func get_class():
+	return "Bullet"
+
+func is_type(type): 
+	return type == self.get_class or .is_type(type)

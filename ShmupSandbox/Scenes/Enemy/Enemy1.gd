@@ -2,7 +2,6 @@ extends Area2D
 
 signal shoot()
 signal enemyDie()
-export (PackedScene) var mob
 export (float) var shootDelay = 0.15
 export (float) var shootSpeed = 5
 export (float) var randomVariation = 0
@@ -39,7 +38,6 @@ func hit():
 func die():
 	self.visible = false
 	emit_signal("enemyDie",self.position,mortExplosion.instance())
-
 	queue_free()
 
 # Quand un tir du joueur touche l'ennemi

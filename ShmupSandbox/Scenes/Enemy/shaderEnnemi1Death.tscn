@@ -1,8 +1,9 @@
 [gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://assets/bullet_ennemi/bulletLight.png" type="Texture" id=1]
-[ext_resource path="res://assets/ennemi1/ennemi1.png" type="Texture" id=2]
-[ext_resource path="res://assets/ennemi1/noisetexture.tres" type="Texture" id=3]
+[ext_resource path="res://Assets/bullet_ennemi/bulletLight.png" type="Texture" id=1]
+[ext_resource path="res://Assets/ennemi1/ennemi1.png" type="Texture" id=2]
+[ext_resource path="res://Assets/ennemi1/noisetexture.tres" type="Texture" id=3]
+
 
 [sub_resource type="VisualShaderNodeScalarOp" id=1]
 output_port_for_preview = 0

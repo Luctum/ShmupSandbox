@@ -17,7 +17,7 @@ _global_script_class_icons={
 
 config/name="ShmupSandbox"
 run/main_scene="res://Scenes/Main.tscn"
-config/icon="res://assets/iconeWowKiller/iconeWowKiller.png"
+config/icon="res://Assets/iconeWowKiller/iconeWowKiller.png"
 
 [display]
 

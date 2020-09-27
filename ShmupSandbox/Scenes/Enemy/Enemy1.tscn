@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Enemy/Enemy1.gd" type="Script" id=1]
 [ext_resource path="res://Assets/ennemi1/ennemi1.png" type="Texture" id=2]
+[ext_resource path="res://Assets/general_sounds/Explosion1.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Assets/general_sounds/Hit.ogg" type="AudioStream" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 23.0067
@@ -30,5 +32,17 @@ __meta__ = {
 position = Vector2( 0, 4 )
 rotation = 1.5708
 shape = SubResource( 1 )
+
+[node name="HitTimer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+pitch_scale = 2.0
+
+[node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
 [connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
 [connection signal="timeout" from="Shootingspeed" to="." method="_on_Shootingspeed_timeout"]
+[connection signal="timeout" from="HitTimer" to="." method="_on_HitTimer_timeout"]

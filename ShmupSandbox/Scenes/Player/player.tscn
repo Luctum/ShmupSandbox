@@ -94,6 +94,7 @@ frames = SubResource( 9 )
 [node name="moving" type="AnimatedSprite" parent="."]
 frames = SubResource( 10 )
 animation = "moving"
+frame = 1
 playing = true
 
 [node name="shooting" type="AnimatedSprite" parent="."]
@@ -107,7 +108,6 @@ position = Vector2( 0, -12.6587 )
 shape = SubResource( 12 )
 
 [node name="shootingSpeedPlayer" type="Timer" parent="."]
-autostart = true
 
 [node name="Focus" type="CPUParticles2D" parent="."]
 position = Vector2( -0.0546589, -12.6774 )

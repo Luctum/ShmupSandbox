@@ -3,19 +3,15 @@ extends Area2D
 
 # Déclare la vitesse du vaisseau
 export var speed = 200
+export var isShooting = false
+export var fireRate =  0.015
+
 var screen_size  # Size of the game window.
 
 # Déclare l'apparence des projectiles du joueur
 var bulletType = load("res://Scenes/Bullet/BulletPlayer.tscn")
-
 var mortExplosion = load("res://Scenes/Particules/mortExplosion.tscn")
-
-var fireRatePlayer =  0.15
-
-export var shooting = false
-
 var haveFired = false
-
 var isFocused = false
 
 signal shoot
@@ -27,39 +23,35 @@ var bombsPlayer = 3
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	$shootingSpeedPlayer.wait_time = fireRatePlayer
+	$shootingSpeedPlayer.wait_time = self.fireRate
 
 	#Définit une Seed pour la RNG
 	rng.randomize()
 
 
 func playerShooting():
-	#Lorsque le joueur appuis sur la touche de tir
-	if Input.is_action_pressed("ui_shoot") :
-		print($shootingSpeedPlayer.time_left)
-		shooting = true
-		$shooting.visible = true
-		if ($shootingSpeedPlayer.time_left<0.03) :
-			if (haveFired ==false) :
-				#Définit l'angle
-				var anglePlayerShoot
-				if (isFocused == false) :
-					anglePlayerShoot = rng.randf_range(-0.45, 0.45)
-				else:
-					anglePlayerShoot = rng.randf_range(-0.1, 0.1)
-				emit_signal("shoot",bulletType.instance(),position,Vector2(anglePlayerShoot,-3),2)
-				$shootingSpeedPlayer.set_wait_time(fireRatePlayer)
-				haveFired = true
+#	#Lorsque le joueur appuis sur la touche de tir
+	if Input.is_action_just_pressed("ui_shoot"):
+		shoot()
+		$shootingSpeedPlayer.wait_time = fireRate
+		$shootingSpeedPlayer.start()
+		isShooting = true
+	if Input.is_action_just_released("ui_shoot"):
+		isShooting = false
+		$shootingSpeedPlayer.stop()
+	$shooting.visible = isShooting 
 
+func shoot():
+	#Définit l'angle
+	var anglePlayerShoot
+	if (isFocused == false) :
+		anglePlayerShoot = rng.randf_range(-0.45, 0.45)
 	else:
-		shooting = false
-		$shooting.visible = false
-
-		
+		anglePlayerShoot = rng.randf_range(-0.1, 0.1)
+	emit_signal("shoot",bulletType.instance(),position,Vector2(anglePlayerShoot,-3),2)
 
 func _on_shootingSpeedPlayer_timeout():
-	haveFired = false
-	
+	shoot()
 
 func _process(delta):
 	#Commandes de Debugs / Confort Developpement
@@ -116,18 +108,19 @@ func focusPlayer():
 
 # Quand un objet touche le joueur
 func _on_Player_area_entered(area):
-		if(area)!= Area2D && area.isBulletFromPlayer == false:
-			var fpsWhenDead = Engine.get_frames_per_second()
-			print("FPS lors de la mort : "+ str(fpsWhenDead))
-			self.visible=false
-			emit_signal("visibility_changed")
-			mortExplosion.instance()
-			print(area.name)
-			queue_free()
-		else:
-			pass
+	print(area.get_class())
+	if area.get_class() == "Bullet" && area.isBulletFromPlayer == false:
+		self.visible=false
+		emit_signal("visibility_changed")
+		mortExplosion.instance()
+		print(area.name)
+		queue_free()
 
-
+func get_class():
+	return "Player"
+	
+func is_type(type): 
+	return type == self.get_class or .is_type(type)
 
 
 

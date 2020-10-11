@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Enemy/Enemy1.gd" type="Script" id=1]
 [ext_resource path="res://Assets/ennemi1/ennemi1.png" type="Texture" id=2]
@@ -9,8 +9,28 @@
 radius = 23.0067
 height = 7.64029
 
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
+light_mode = 2
+
+[sub_resource type="Animation" id=3]
+resource_name = "hit_animation"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ null, SubResource( 2 ), SubResource( 2 ) ]
+}
+
 [node name="Enemy" type="Area2D" groups=[
-"Enemies",
+"enemies",
 ]]
 position = Vector2( -0.487671, 0 )
 collision_mask = 0
@@ -37,12 +57,19 @@ shape = SubResource( 1 )
 wait_time = 0.05
 one_shot = true
 
-[node name="HitSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-pitch_scale = 2.0
-
 [node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+bus = "Sfx-Bullet"
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+pitch_scale = 1.81
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../EnemySprite")
+playback_speed = 2.0
+method_call_mode = 1
+anims/hit_animation = SubResource( 3 )
 [connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
 [connection signal="timeout" from="Shootingspeed" to="." method="_on_Shootingspeed_timeout"]
 [connection signal="timeout" from="HitTimer" to="." method="_on_HitTimer_timeout"]

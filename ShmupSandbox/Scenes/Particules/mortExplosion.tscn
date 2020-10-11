@@ -24,7 +24,7 @@
 [ext_resource path="res://Assets/explosion2/explosion26.png" type="Texture" id=22]
 [ext_resource path="res://Scenes/Particules/mortExplosion.gd" type="Script" id=23]
 
-[sub_resource type="AnimatedTexture" id=2]
+[sub_resource type="AnimatedTexture" id=1]
 flags = 4
 frames = 15
 fps = 15.0
@@ -58,7 +58,7 @@ frame_13/delay_sec = 0.0
 frame_14/texture = ExtResource( 2 )
 frame_14/delay_sec = 0.0
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 1 ), 0.0, 0.723999, 0, 0, Vector2( 1, 0 ), -0.123441, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=3]
@@ -66,7 +66,7 @@ min_value = 0.99
 max_value = 18.36
 _data = [ Vector2( 0, -0.0409091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0681819 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="AnimatedTexture" id=1]
+[sub_resource type="AnimatedTexture" id=4]
 flags = 4
 frames = 7
 fps = 10.0
@@ -95,7 +95,7 @@ lifetime = 0.25
 one_shot = true
 explosiveness = 1.0
 lifetime_randomness = 0.36
-texture = SubResource( 2 )
+texture = SubResource( 1 )
 emission_shape = 1
 emission_sphere_radius = 45.0
 spread = 30.0
@@ -105,7 +105,7 @@ linear_accel_random = 0.28
 angle_random = 1.0
 scale_amount = 0.5
 scale_amount_random = 0.41
-scale_amount_curve = SubResource( 4 )
+scale_amount_curve = SubResource( 2 )
 hue_variation_random = 1.0
 hue_variation_curve = SubResource( 3 )
 
@@ -113,5 +113,5 @@ hue_variation_curve = SubResource( 3 )
 emitting = false
 amount = 1
 one_shot = true
-texture = SubResource( 1 )
+texture = SubResource( 4 )
 gravity = Vector2( 0, 0 )

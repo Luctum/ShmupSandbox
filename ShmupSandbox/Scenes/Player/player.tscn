@@ -11,7 +11,6 @@
 [ext_resource path="res://Assets/explosion2/explosion25.png" type="Texture" id=10]
 [ext_resource path="res://Assets/bouclier1/bouclier15.png" type="Texture" id=11]
 
-
 [sub_resource type="ShaderMaterial" id=1]
 
 [sub_resource type="Shader" id=2]
@@ -101,7 +100,6 @@ playing = true
 [node name="shooting" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
 animation = "shooting"
-frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -1,4 +1,6 @@
 extends Area2D
+class_name Bullet
+
 var velocity=Vector2(0,0)
 export (bool) var isBulletFromPlayer = false
 

@@ -1,64 +1,78 @@
 extends Area2D
-
-
-# Déclare la vitesse du vaisseau
-export var speed = 200
-export var isShooting = false
-export var fireRate =  0.015
-
-var screen_size  # Size of the game window.
-
-# Déclare l'apparence des projectiles du joueur
-var bulletType = load("res://Scenes/Bullet/BulletPlayer.tscn")
-var mortExplosion = load("res://Scenes/Particules/mortExplosion.tscn")
-var haveFired = false
-var isFocused = false
-
+class_name Player
 signal shoot
 
-#Permet d'obtenir de la RNG selon le temps
-var rng = RandomNumberGenerator.new()
+var random_seed = RandomNumberGenerator.new()
 
-var bombsPlayer = 3
+######################################
+######### EXTERNAL RESOURCES #########
+######################################
+var bulletType = load("res://Scenes/Bullet/BulletPlayer.tscn")
+var mortExplosion = load("res://Scenes/Particules/mortExplosion.tscn")
+
+######################################
+######### PLAYER STATS/VALUES#########
+######################################
+
+export var inventory = {
+	bombs = 3,
+}
+
+export var state = {
+	is_shooting = false,
+	have_fired = false,
+	is_focused = false
+}
+
+export var statistics = {
+	movement_speed = 200,
+	fire_rate =  0.1	
+}
+
+######################################
+############## SCENE #################
+######################################
 
 func _ready():
-	screen_size = get_viewport_rect().size
-	$shootingSpeedPlayer.wait_time = self.fireRate
+	$shootingSpeedPlayer.wait_time = self.statistics.fire_rate
+	random_seed.randomize()
 
-	#Définit une Seed pour la RNG
-	rng.randomize()
+func _process(delta):
+	manage_movement_input(delta)
+	manage_focus_input()
+	manage_bomb_input()
+	manage_shoot_input()
+
+######################################
+########## SECTION : INPUTS ##########
+######################################
+
+func manage_focus_input():
+	if Input.is_action_pressed("ui_focus"):
+		self.state.is_focused = true
+		$Focus.emitting = true
+	if Input.is_action_just_released("ui_focus"):
+		self.state.is_focused = false
+		$Focus.emitting = false
 
 
-func playerShooting():
+func manage_bomb_input():
+	if Input.is_action_just_pressed("ui_bomb"):
+		self.use_bomb();
+
+func manage_shoot_input():
 #	#Lorsque le joueur appuis sur la touche de tir
 	if Input.is_action_just_pressed("ui_shoot"):
 		shoot()
-		$shootingSpeedPlayer.wait_time = fireRate
+		$shootingSpeedPlayer.wait_time = self.statistics.fire_rate
 		$shootingSpeedPlayer.start()
-		isShooting = true
+		self.state.is_shooting = true
 	if Input.is_action_just_released("ui_shoot"):
-		isShooting = false
+		self.state.is_shooting = false
 		$shootingSpeedPlayer.stop()
-	$shooting.visible = isShooting 
+	$shooting.visible = self.state.is_shooting 
 
-func shoot():
-	#Définit l'angle
-	var anglePlayerShoot
-	if (isFocused == false) :
-		anglePlayerShoot = rng.randf_range(-0.45, 0.45)
-	else:
-		anglePlayerShoot = rng.randf_range(-0.1, 0.1)
-	emit_signal("shoot",bulletType.instance(),position,Vector2(anglePlayerShoot,-3),2)
-
-func _on_shootingSpeedPlayer_timeout():
-	shoot()
-
-func _process(delta):
-	#Commandes de Debugs / Confort Developpement
-	#if Input.is_action_pressed("ui_esc"):
-		
-	playerShooting()
-	focusPlayer()
+func manage_movement_input(delta):
 	var velocity = Vector2()  # The player's movement vector.
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
@@ -73,38 +87,44 @@ func _process(delta):
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
 		$moving.speed_scale = 2
+	move(velocity, delta)
+
+######################################
+########## SECTION : ACTIONS #########
+######################################
+
+func shoot():
+	#Définit l'angle
+	var shooting_angle
+	if (state.is_focused == false) :
+		shooting_angle = self.random_seed.randf_range(-0.45, 0.45)
+	else:
+		shooting_angle = self.random_seed.randf_range(-0.1, 0.1)
+	emit_signal("shoot",bulletType.instance(),position,Vector2(shooting_angle,-3),2)
+
+func use_bomb():
+	if (self.inventory.bombs > 0):
+			self.inventory.bombs -=1
+			get_tree().call_group("enemy_bullet", "queue_free")
+			get_tree().call_group("enemies","die")
+
+func move(velocity, delta):
+	var current_speed = self.statistics.movement_speed
+	if state.is_focused:
+		current_speed = current_speed / 2;
 	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
+		velocity = velocity.normalized() * current_speed
 		$vaisseau.play()
 	else:
 		$vaisseau.stop()
 		$moving.speed_scale = 1
 	position += velocity * delta
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
+	position.x = clamp(position.x, 0, get_viewport_rect().size.x)
+	position.y = clamp(position.y, 0, get_viewport_rect().size.y)
 
-
-	#Fonction pour la bombe
-	if Input.is_action_just_pressed("ui_bomb"):
-		if (bombsPlayer!=0):
-			bombsPlayer -=1
-			get_tree().call_group("ennemyBullets", "queue_free")
-			get_tree().call_group("enemies","queue_free")
-			print("bombe activée. Il reste ", bombsPlayer, " Bombe(s)")
-		 
-
-
-func focusPlayer():
-	if Input.is_action_pressed("ui_focus"):
-		speed = 100
-		isFocused = true
-		$Focus.emitting = true
-
-	if Input.is_action_just_released("ui_focus"):
-		speed = 200
-		isFocused = false
-		$Focus.emitting = false
-
+#######################################
+########## SECTION : SIGNALS ##########
+#######################################
 
 # Quand un objet touche le joueur
 func _on_Player_area_entered(area):
@@ -116,11 +136,19 @@ func _on_Player_area_entered(area):
 		print(area.name)
 		queue_free()
 
+func _on_shootingSpeedPlayer_timeout():
+	shoot()
+
+######################################
+########## SECTION : UTILS ###########
+######################################
+
 func get_class():
 	return "Player"
 	
 func is_type(type): 
 	return type == self.get_class or .is_type(type)
+
 
 
 

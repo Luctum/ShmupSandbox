@@ -8,7 +8,7 @@
 radius = 9.66642
 
 [node name="Bullet" type="Area2D" groups=[
-"ennemyBullets",
+"enemy_bullet",
 ]]
 z_index = 2
 script = ExtResource( 1 )

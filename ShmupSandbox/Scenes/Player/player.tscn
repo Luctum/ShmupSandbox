@@ -96,13 +96,12 @@ frames = SubResource( 9 )
 [node name="moving" type="AnimatedSprite" parent="."]
 frames = SubResource( 10 )
 animation = "moving"
-frame = 2
 playing = true
 
 [node name="shooting" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
 animation = "shooting"
-frame = 2
+frame = 1
 playing = true
 
 [node name="CirclePowerUpLowDistance" type="CollisionShape2D" parent="."]
@@ -110,8 +109,12 @@ position = Vector2( 0, -12.6587 )
 scale = Vector2( 10, 10 )
 shape = SubResource( 12 )
 
-[node name="HitboxPlayer" type="CollisionShape2D" parent="."]
+[node name="Node2D" type="Node2D" parent="CirclePowerUpLowDistance"]
+
+[node name="HitboxPlayerArea" type="Area2D" parent="."]
 position = Vector2( 0, -12.6587 )
+
+[node name="HitboxPlayer" type="CollisionShape2D" parent="HitboxPlayerArea"]
 shape = SubResource( 13 )
 
 [node name="shootingSpeedPlayer" type="Timer" parent="."]

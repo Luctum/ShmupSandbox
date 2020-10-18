@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Assets/vaisseau1/vaisseau1_tirs1.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Player/player.gd" type="Script" id=2]
@@ -71,8 +71,10 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=12]
-extents = Vector2( 3.54986, 3.67569 )
+[sub_resource type="CircleShape2D" id=12]
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 1.65685, 1.93535 )
 
 [node name="Player" type="Area2D"]
 material = SubResource( 3 )
@@ -94,17 +96,23 @@ frames = SubResource( 9 )
 [node name="moving" type="AnimatedSprite" parent="."]
 frames = SubResource( 10 )
 animation = "moving"
-frame = 1
+frame = 2
 playing = true
 
 [node name="shooting" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
 animation = "shooting"
+frame = 2
 playing = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CirclePowerUpLowDistance" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -12.6587 )
+scale = Vector2( 10, 10 )
 shape = SubResource( 12 )
+
+[node name="HitboxPlayer" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -12.6587 )
+shape = SubResource( 13 )
 
 [node name="shootingSpeedPlayer" type="Timer" parent="."]
 

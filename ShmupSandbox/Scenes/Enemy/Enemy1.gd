@@ -8,7 +8,7 @@ export (float) var randomVariation = 0
 export (Vector2) var movementDirection = Vector2(0,0)
 export var rotateShoot = false
 export var rotationSpeed = 5
-export var life = 3
+export var life = 15
 
 var isTakingDamage = false
 var bulletType = load("res://Scenes/Bullet/Bullet.tscn")
@@ -45,6 +45,8 @@ func hit():
 func die():
 	self.visible = false
 	emit_signal("enemyDie", self, self.position, mortExplosion)
+#	add_child(powerUp)
+	queue_free()
 
 # Quand un tir du joueur touche l'ennemi
 func _on_Enemy_area_entered(area):

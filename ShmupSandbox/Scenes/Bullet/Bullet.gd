@@ -26,3 +26,8 @@ func get_class():
 
 func is_type(type): 
 	return type == self.get_class or .is_type(type)
+
+
+func _on_Bullet_area_entered(area):
+	if(area== $HitboxPlayer):
+		self.queue_free()

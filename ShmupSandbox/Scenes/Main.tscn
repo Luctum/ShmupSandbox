@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Enemy/Enemy1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Main.gd" type="Script" id=2]
@@ -9,8 +9,9 @@
 [ext_resource path="res://Scenes/SpeedEffect/SpeedEffect.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Assets/general_sounds/Too_easy.ogg" type="AudioStream" id=8]
 [ext_resource path="res://Assets/general_sounds/Explosion1.ogg" type="AudioStream" id=9]
+[ext_resource path="res://Scenes/powersups/Bombs/powerUp.tscn" type="PackedScene" id=10]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=1]
 resource_name = "background_animation"
 loop = true
 tracks/0/type = "value"
@@ -26,7 +27,7 @@ tracks/0/keys = {
 "values": [ Vector2( 514.386, -98.7709 ), Vector2( 511.39, 710.315 ) ]
 }
 
-[sub_resource type="VisualShader" id=7]
+[sub_resource type="VisualShader" id=2]
 code = "shader_type spatial;
 render_mode specular_schlick_ggx;
 
@@ -50,8 +51,8 @@ void light() {
 "
 graph_offset = Vector2( 0, 4.5 )
 
-[sub_resource type="ShaderMaterial" id=8]
-shader = SubResource( 7 )
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
 
 [sub_resource type="OpenSimplexNoise" id=4]
 
@@ -59,12 +60,12 @@ shader = SubResource( 7 )
 seamless = true
 noise = SubResource( 4 )
 
-[sub_resource type="Curve2D" id=1]
+[sub_resource type="Curve2D" id=6]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44.1008, -16.9524, 0, 0, 0, 0, 97.8824, -40, 0, 0, 0, 0, 104, -40, 0, 0, 0, 0, 192, 16, 0, 0, 0, 0, 162.42, 89.9048, 0, 0, 0, 0, 104, 136, 0, 0, 0, 0, 33.3445, 104.571, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0 )
 }
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
@@ -72,22 +73,30 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 160, 305 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
 Enemy1 = ExtResource( 1 )
 
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2( 392, 168 )
+scale = Vector2( 6.60703, 3.79591 )
+points = PoolVector2Array( 47.2224, -6.32259, -10.8975, -6.32259 )
+width = 1.0
+default_color = Color( 1, 1, 1, 1 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 4.0
-anims/background_animation = SubResource( 6 )
+anims/background_animation = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="AnimationPlayer"]
+visible = false
 modulate = Color( 0.364706, 0.14902, 0.305882, 1 )
 self_modulate = Color( 0.964706, 0.929412, 0.94902, 1 )
-material = SubResource( 8 )
-position = Vector2( 513.498, 140.958 )
+material = SubResource( 3 )
+position = Vector2( 514.386, -98.7709 )
 scale = Vector2( 2.01406, 2.79182 )
 z_index = -2
 texture = SubResource( 5 )
@@ -96,7 +105,7 @@ texture = SubResource( 5 )
 light_mask = -2147483648
 position = Vector2( 339, 64.0909 )
 scale = Vector2( 1.85937, 0.477273 )
-curve = SubResource( 1 )
+curve = SubResource( 6 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="EnemySpawnZone"]
 position = Vector2( 76.9879, -31.0458 )
@@ -120,51 +129,11 @@ motion_mirroring = Vector2( 4, 0 )
 
 [node name="Asteroide1" type="AnimatedSprite" parent="Camera2D/ParallaxBackground/ParallaxLayer"]
 position = Vector2( 168, 176 )
-frames = SubResource( 2 )
+frames = SubResource( 7 )
 animation = "Asteroide 1"
 
 [node name="BossCentre" parent="." instance=ExtResource( 5 )]
 position = Vector2( 518, 59 )
-
-[node name="EnemiesGroup" type="Node" parent="."]
-
-[node name="Enemy" parent="EnemiesGroup" instance=ExtResource( 1 )]
-position = Vector2( 419.057, 133.296 )
-shootDelay = 0.001
-shootSpeed = 2.0
-rotateShoot = true
-rotationSpeed = 5
-
-[node name="Enemy2" parent="EnemiesGroup" instance=ExtResource( 1 )]
-position = Vector2( 368, 185 )
-shootDelay = 1.0
-rotationSpeed = 10
-
-[node name="Enemy4" parent="EnemiesGroup" instance=ExtResource( 1 )]
-position = Vector2( 654.576, 190.56 )
-shootDelay = 1.0
-rotationSpeed = 10
-
-[node name="Enemy5" parent="EnemiesGroup" instance=ExtResource( 1 )]
-position = Vector2( 506.02, 132.261 )
-shootDelay = 1.0
-rotationSpeed = 10
-
-[node name="Enemy8" parent="EnemiesGroup" instance=ExtResource( 1 )]
-position = Vector2( 477, 192 )
-shootDelay = 0.05
-rotateShoot = true
-
-[node name="Enemy9" parent="EnemiesGroup" instance=ExtResource( 1 )]
-position = Vector2( 563, 192 )
-shootDelay = 1.0
-
-[node name="Enemy10" parent="EnemiesGroup" instance=ExtResource( 1 )]
-position = Vector2( 601, 136 )
-shootDelay = 0.3
-shootSpeed = 2.0
-rotateShoot = true
-rotationSpeed = -1
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 519.429, 526.326 )
@@ -184,7 +153,17 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Limite de terrain"]
-shape = SubResource( 3 )
+shape = SubResource( 8 )
+
+[node name="Label" type="Label" parent="Limite de terrain"]
+margin_left = -144.0
+margin_top = 240.0
+margin_right = -71.0
+margin_bottom = 254.0
+text = "Bombes : Z"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Limite de terrain2" type="Area2D" parent="."]
 position = Vector2( 864, 296 )
@@ -201,7 +180,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Limite de terrain2"]
-shape = SubResource( 3 )
+shape = SubResource( 8 )
 
 [node name="SpeedEffect" parent="." instance=ExtResource( 7 )]
 position = Vector2( 512, 0 )
@@ -220,13 +199,8 @@ bus = "Sfx-Bullet"
 [node name="StageMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 volume_db = -24.0
+
+[node name="Bomb" parent="." instance=ExtResource( 10 )]
+position = Vector2( 512, 184 )
 [connection signal="timeout" from="EnemySpawnZone/EnemySpawnTimer" to="." method="_on_EnemySpawnTimer_timeout"]
-[connection signal="enemyDie" from="EnemiesGroup/Enemy" to="." method="_on_Enemy_enemyDie"]
-[connection signal="shoot" from="EnemiesGroup/Enemy" to="." method="_on_Enemy_shoot"]
-[connection signal="enemyDie" from="EnemiesGroup/Enemy2" to="." method="_on_Enemy_enemyDie"]
-[connection signal="shoot" from="EnemiesGroup/Enemy2" to="." method="_on_Enemy_shoot"]
-[connection signal="enemyDie" from="EnemiesGroup/Enemy4" to="." method="_on_Enemy_enemyDie"]
-[connection signal="shoot" from="EnemiesGroup/Enemy4" to="." method="_on_Enemy_shoot"]
-[connection signal="enemyDie" from="EnemiesGroup/Enemy5" to="." method="_on_Enemy_enemyDie"]
-[connection signal="shoot" from="EnemiesGroup/Enemy5" to="." method="_on_Enemy_shoot"]
 [connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]

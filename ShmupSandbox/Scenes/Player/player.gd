@@ -135,6 +135,8 @@ func _on_Player_area_entered(area):
 		mortExplosion.instance()
 		print(area.name)
 		queue_free()
+	if area.get_class()=="CirclePowerUpLowDistance":
+		inventory.bombs+=1
 
 func _on_shootingSpeedPlayer_timeout():
 	shoot()

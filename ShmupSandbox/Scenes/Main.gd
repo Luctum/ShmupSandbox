@@ -33,6 +33,10 @@ func _on_Enemy_enemyDie(enemy, position, mortExplosion):
 	explosion.position=position
 	add_child(explosion)
 	explosion.emit()
+	var powerUp = powerUp.instance()
+	powerUp.position=position
+	add_child(powerUp)
+	powerUp.set_pos(position)
 	playVoiceSoundSometimes()
 	$ExplosionSound1.play()
 	enemy.queue_free()

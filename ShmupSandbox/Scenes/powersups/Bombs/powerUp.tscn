@@ -1,0 +1,61 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Assets/powerup1/powerup2.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/powersups/Bombs/powerUp.gd" type="Script" id=2]
+[ext_resource path="res://Assets/powerup1/powerup1.png" type="Texture" id=3]
+[ext_resource path="res://Assets/powerup1/powerup5.png" type="Texture" id=4]
+[ext_resource path="res://Assets/powerup1/powerup4.png" type="Texture" id=5]
+[ext_resource path="res://Assets/powerup1/powerup3.png" type="Texture" id=6]
+[ext_resource path="res://Assets/powerup1/powerup9.png" type="Texture" id=7]
+[ext_resource path="res://Assets/powerup1/powerup8.png" type="Texture" id=8]
+[ext_resource path="res://Assets/powerup1/powerup7.png" type="Texture" id=9]
+[ext_resource path="res://Assets/powerup1/powerup6.png" type="Texture" id=10]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.4696
+
+[sub_resource type="AnimatedTexture" id=2]
+flags = 4
+frames = 9
+fps = 9.0
+frame_0/texture = ExtResource( 7 )
+frame_1/texture = ExtResource( 3 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 1 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 6 )
+frame_3/delay_sec = 0.0
+frame_4/texture = ExtResource( 5 )
+frame_4/delay_sec = 0.0
+frame_5/texture = ExtResource( 4 )
+frame_5/delay_sec = 0.0
+frame_6/texture = ExtResource( 10 )
+frame_6/delay_sec = 0.0
+frame_7/texture = ExtResource( 9 )
+frame_7/delay_sec = 0.0
+frame_8/texture = ExtResource( 8 )
+frame_8/delay_sec = 0.0
+
+[node name="powerUp" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="RigidBody2D"]
+gravity_point = true
+gravity_distance_scale = 1.57
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D/Area2D"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D"]
+texture = SubResource( 2 )
+normal_map = ExtResource( 3 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource( 1 )
+[connection signal="area_entered" from="RigidBody2D/Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="area_entered" from="RigidBody2D/Area2D" to="RigidBody2D/Sprite" method="_on_Area2D_area_entered"]

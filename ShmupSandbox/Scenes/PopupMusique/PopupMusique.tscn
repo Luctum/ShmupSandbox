@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://PopupMusique.gd" type="Script" id=1]
 [ext_resource path="res://Assets/fonts/DJGROSS.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/music/placeholderMusic/Strike the Earth DJ Cutman.wav" type="AudioStream" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 14
@@ -35,7 +36,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Popup/PopupDialog"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 188.0
@@ -46,28 +47,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MusiqueEnCours" type="Label" parent="Popup/PopupDialog/VBoxContainer"]
+[node name="MusiqueEnCours" type="Label" parent="VBoxContainer"]
 margin_right = 178.0
-margin_bottom = 36.0
+margin_bottom = 10.0
 custom_fonts/font = SubResource( 1 )
-text = "Musique jouée xxxxxxxxxxxxxxxxxx"
+text = "Musique jouée :"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="Popup/PopupDialog/VBoxContainer"]
-margin_top = 40.0
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 14.0
 margin_right = 178.0
-margin_bottom = 44.0
+margin_bottom = 18.0
 
-[node name="Auteur" type="Label" parent="Popup/PopupDialog/VBoxContainer"]
-margin_top = 48.0
+[node name="Auteur" type="Label" parent="VBoxContainer"]
+margin_top = 22.0
 margin_right = 178.0
-margin_bottom = 84.0
+margin_bottom = 32.0
 custom_fonts/font = SubResource( 1 )
-text = "Musique jouée xxxxxxxxxxxxxxxxxx"
+text = "Auteur :"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+autoplay = true
+bus = "Musique"
